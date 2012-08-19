@@ -17,7 +17,7 @@ public class scramble extends JFrame implements ActionListener {
 		scramble s = new scramble();
 		s.validate();
 	}
-	
+
 	JButton batton = new JButton("Scramble!");
 	JTextField msg = new JTextField("String goes here!");
 	JTextField resault = new JTextField("Resault");
@@ -36,53 +36,47 @@ public class scramble extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		resault.setText(scramblemsg(msg.getText()));
+		resault.setText(scramblesentence(msg.getText()));
 	}
 
-	public String scramblemsg(String s) {
-		String[] msg = s.split(" ");
+	public String scramblesentence(String s){
 		String fm = "";
-		for (String word : msg) {
-			try {
-				if(word.length() == 1 || word.length() == 2){
-					if(fm.isEmpty()){
-						fm = word;
-					} else {
-						fm = fm + " " + word;
-					}
-					continue;
-				}
-				
-				String nw = "Failed to convert";
+		String[] msg = s.split(" ");
+		for(int i=0; i < msg.length; i++){
+			if(fm.isEmpty()){
+				fm = scrambleWord(msg[i]);
+			} else {
+				fm = fm + " " + scrambleWord(msg[i]);
+			}
+		}
+		return fm;
+	}
+	
+	public String scrambleWord(String s) {
+		String nw = "Fail";
+		try {
+			if(!(s.length() == 1 || s.length() == 2)){
 				ArrayList<Character> chars = new ArrayList<Character>(s.length());
-				String b = word.substring(0, 1);
-				String e = word.substring(word.length()-1, word.length());
-				String w = word.substring(1, word.length() - 1);
+				String b = s.substring(0, 1);
+				String e = s.substring(s.length()-1, s.length());
+				String w = s.substring(1, s.length() - 1);
 				char[] middle = w.toCharArray();
 				Random r = new Random();
 				nw = b;
-				
 				for(int zi=0; zi < middle.length; zi++){
-					chars.add(middle[zi]);
+					if(!(Character.valueOf(middle[zi]).toString() == e))
+						chars.add(middle[zi]);
 				}
 				while(nw.length() < s.length() && chars.size() > 0){
 					int n = r.nextInt(chars.size());
-					if(Character.valueOf(chars.get(n)).toString() == e){
-						chars.remove(n);
-					}
 					nw = nw + chars.get(n);
 					chars.remove(n);
 				}
 				nw = nw + e;
-				if(fm.isEmpty()){
-					fm = nw;
-				} else {
-					fm = fm + " " + nw;
-				}
-			} catch (Exception e){
-				e.printStackTrace();
 			}
+		} catch (Exception e){
+			e.printStackTrace();
 		}
-		return fm;
+		return nw;
 	}
 }
