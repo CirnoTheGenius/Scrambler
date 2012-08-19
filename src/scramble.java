@@ -15,13 +15,23 @@ import javax.swing.JButton;
 public class scramble extends JFrame implements ActionListener {
 	JTextField msg = new JTextField("String goes here!");
 	JButton batton = new JButton("Encrypt!");
-	JTextField resault = new JTextField("Resault")
-	;
+	JTextField resault = new JTextField("Resault");
+	
 	public String scramblemsg(String s) {
-		String nw = "Failed to convert";
+		//
 		String[] msg = s.split(" ");
+		String fm = "";
 		for(int i=0; i < msg.length; i++){
 			try {
+				if(msg[i].length() == 1 || msg[i].length() == 2){
+					if(fm.isEmpty()){
+						fm = msg[i];
+					} else {
+						fm = fm + " " + msg[i];
+					}
+					continue;
+				}
+				String nw = "Failed to convert";
 				String word = msg[i];
 				System.out.println(word);
 				ArrayList<Character> chars = new ArrayList<Character>(s.length());
@@ -39,18 +49,28 @@ public class scramble extends JFrame implements ActionListener {
 					chars.add(middle[zi]);
 					System.out.println("The added character was: " + chars.get(zi));
 				}
-				while(nw.length() < chars.size()+1){
+				while((nw.length() < s.length()) && chars.size() > 0){
 					int n = r.nextInt(chars.size());
+					if(chars.get(n).toString() == e || chars.get(n).toString() == b){
+						chars.remove(n);
+					}
+					System.out.println("The letter that was added was: " + chars.get(n));
 					nw = nw + chars.get(n);
-					chars.remove(n);
+					System.out.println("The removed letter was: " + chars.get(n));
+					chars.remove(n);	
 				}
 				nw = nw + e;
 				System.out.println("The new word is: " + nw);
+				if(fm.isEmpty()){
+					fm = nw;
+				} else {
+					fm = fm + " " + nw;
+				}
 			} catch (Exception e){
 				e.printStackTrace();
 			}
 		}
-		return nw;
+		return fm;
     }
       
        
