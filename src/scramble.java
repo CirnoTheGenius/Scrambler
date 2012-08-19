@@ -36,10 +36,10 @@ public class scramble extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		resault.setText(scramblesentence(msg.getText()));
+		resault.setText(scrambleSentence(msg.getText()));
 	}
 
-	public String scramblesentence(String s){
+	public String scrambleSentence(String s){
 		String fm = "";
 		String[] msg = s.split(" ");
 		for(int i=0; i < msg.length; i++){
@@ -59,31 +59,25 @@ public class scramble extends JFrame implements ActionListener {
 		}
 		return fm;
 	}
-	
+
 	public String scrambleWord(String s) {
 		String nw = "";
-		try {
-			if(!(s.length() == 1 || s.length() == 2)){
-				ArrayList<Character> chars = new ArrayList<Character>(s.length());
-				String b = s.substring(0, 1);
-				String e = s.substring(s.length()-1, s.length());
-				String w = s.substring(1, s.length() - 1);
-				char[] middle = w.toCharArray();
-				Random r = new Random();
-				nw = b;
-				for(int zi=0; zi < middle.length; zi++){
-					if(!(Character.valueOf(middle[zi]).toString() == e))
-						chars.add(middle[zi]);
-				}
-				while(nw.length() < s.length() && chars.size() > 0){
-					int n = r.nextInt(chars.size());
-					nw = nw + chars.get(n);
-					chars.remove(n);
-				}
-				nw = nw + e;
+		if(!(s.length() == 1 || s.length() == 2)){
+			ArrayList<Character> chars = new ArrayList<Character>();
+			String b = s.substring(0, 1);
+			String e = s.substring(s.length()-1, s.length());
+			String w = s.substring(1, s.length() - 1);
+			char[] middle = w.toCharArray();
+			Random r = new Random();
+			for(int i=0; i < middle.length; i++){
+				chars.add(middle[i]);
 			}
-		} catch (Exception e){
-			e.printStackTrace();
+			while(nw.length() < s.length() && chars.size() > 0){
+				int n = r.nextInt(chars.size());
+				nw = nw + chars.get(n);
+				chars.remove(n);
+			}
+			nw = b + nw + e;
 		}
 		return nw;
 	}
