@@ -44,16 +44,24 @@ public class scramble extends JFrame implements ActionListener {
 		String[] msg = s.split(" ");
 		for(int i=0; i < msg.length; i++){
 			if(fm.isEmpty()){
-				fm = scrambleWord(msg[i]);
+				if(msg[i].length() == 1 || msg[i].length() == 2){
+					fm = msg[i];
+				} else {
+					fm = scrambleWord(msg[i]);
+				}
 			} else {
-				fm = fm + " " + scrambleWord(msg[i]);
+				if(msg[i].length() == 1 || msg[i].length() == 2){
+					fm = fm.trim() + " " + msg[i];
+				} else {
+					fm = fm + " " + scrambleWord(msg[i]);
+				}
 			}
 		}
 		return fm;
 	}
 	
 	public String scrambleWord(String s) {
-		String nw = "Fail";
+		String nw = "";
 		try {
 			if(!(s.length() == 1 || s.length() == 2)){
 				ArrayList<Character> chars = new ArrayList<Character>(s.length());
