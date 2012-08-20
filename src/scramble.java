@@ -62,23 +62,30 @@ public class scramble extends JFrame implements ActionListener {
 
 	public String scrambleWord(String s) {
 		String nw = "";
-		if(!(s.length() == 1 || s.length() == 2)){
+		if(!(s.length() == 1 || s.length() == 2 || s.length() == 3)){
 			ArrayList<Character> chars = new ArrayList<Character>();
 			String b = s.substring(0, 1);
-			String e = s.substring(s.length()-1, s.length());
+			String e = s.substring(s.length() - 1, s.length());
 			String w = s.substring(1, s.length() - 1);
+			String p = "";
 			char[] middle = w.toCharArray();
-			Random r = new Random();
+			if(e.equals(".") || e.equals("?") || e.equals("!")) {
+				p = e;
+				e = s.substring(s.length() - 1, s.length() - 1);
+			}
 			for(int i=0; i < middle.length; i++){
 				chars.add(middle[i]);
 			}
 			while(nw.length() < s.length() && chars.size() > 0){
-				int n = r.nextInt(chars.size());
+				int n = new Random().nextInt(chars.size());
 				nw = nw + chars.get(n);
 				chars.remove(n);
 			}
-			nw = b + nw + e;
+			nw = b + nw + e + p;
 		}
+		//if(nw.equalsIgnoreCase(s)) {
+		//	return scrambleWord(s);
+		//} else
 		return nw;
 	}
 }
